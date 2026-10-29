@@ -1,45 +1,60 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>{{appType}} | Car Project</title>
-
-    <meta name="description" content="Example Monolith">
-    <meta name="author" content="@hepidad">
-
-    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
-
-  </head>
+{% include 'header.html' %}
   <body>
-
   <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <h1>Monolith | Car Project</h1>
-                <h3>Demo:
-                        <a href="{{url_for('createcar')}}">Create</a>
-                        /
-                        <a href="{{url_for('readcar')}}">Read</a>
-                        /
-                        <a href="{{url_for('updatecar')}}">Update</a>
-                        /
-                        <a href="{{url_for('deletecar')}}">Delete</a>
-                        /
-                        <a href="{{url_for('searchcar')}}">Search</a>
-                </h3> 
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <h4>Search Car Data</h4>
-                <p>Silahkan diteruskan ... </p>
-            </div>
-            
-        </div>
+    <div class="row">
+      <div class="col-md-12">
+        <h1>{{ appType }} | Car Project</h1>
+        <h3>Demo:
+          <a href="{{ url_for('createcar') }}">Create</a> /
+          <a href="{{ url_for('readcar') }}">Read</a> /
+          <a href="{{ url_for('updatecar') }}">Update</a> /
+          <a href="{{ url_for('deletecar') }}">Delete</a> /
+          <a href="{{ url_for('searchcar') }}">Search</a>
+        </h3>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-md-12">
+        <h4>Search Car Data</h4>
+        <form role="form" action="{{ url_for('searchcarsave') }}" method="POST">
+          <div class="form-group">
+            <label>Keyword (Name / Brand / Model / Price)</label>
+            <input type="text" class="form-control" name="carKey" placeholder="Masukkan kata kunci pencarian..." required>
+          </div>
+          <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+      </div>
+    </div>
+    <br>
+    {% if rows is defined %}
+    <div class="row">
+      <div class="col-md-12">
+        <h4>Search Results:</h4>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Brand</th>
+              <th>Model</th>
+              <th>Price (USD)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in rows %}
+            <tr>
+              <td>{{ row.id }}</td>
+              <td>{{ row.carname }}</td>
+              <td>{{ row.carbrand }}</td>
+              <td>{{ row.carmodel }}</td>
+              <td>{{ row.carprice }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% endif %}
   </div>
-    <script src="../static/js/bootstrap.min.js"></script>
-  </body>
-</html>
+{% include 'footer.html' %}
